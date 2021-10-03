@@ -12,7 +12,7 @@ class DiceRoller(commands.Cog):
 
     @commands.command()
     async def roll(self, ctx):
-        print(ctx.message)
+        print(ctx.message.content)
         if(ctx.message == ''):
             await ctx.reply('For syntax, see: <https://www.kreativekorp.com/dX/>')
             return
