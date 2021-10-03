@@ -12,19 +12,17 @@ class DiceRoller(commands.Cog):
 
     @commands.command()
     async def roll(self, ctx):
-        await ctx.reply(ctx.message.content)
-        if(ctx.message == ''):
+        if(ctx.args == []):
             await ctx.reply('For syntax, see: <https://www.kreativekorp.com/dX/>')
             return
-        r = requests.get(url = API, params = {'roll':ctx.message, 'format':'json', 'optimize':'false', 'evaluate':'true', 'expound':'true'})
-        await ctx.reply(r.text)
+        r = requests.get(url = API, params = {'roll':' '.join(str(e) for e in ctx.args), 'format':'json', 'optimize':'false', 'evaluate':'true', 'expound':'true'})
         if(r.status_code != 200):
             await ctx.reply('Something went wrong - please try again later.')
             await RedBase.send_to_owners(ctx.message + '\nHTTP ' + r.status_code + '\nResponse: ' + r.raw)
             return
         response = r.json()
         if(response[0]['type'] == 'error'):
-            """TODO: Print error. Provide syntax?"""
+            await ctx.reply('For syntax, see: <https://www.kreativekorp.com/dX/>')
             return
-        msg = ctx.content + ' = ' + response[-1]['return-value']
+        msg = ' '.join(str(e) for e in ctx.args) + ' = ' + response[-1]['return-value']
         await ctx.reply(msg)
