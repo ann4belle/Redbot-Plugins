@@ -11,19 +11,18 @@ class DiceRoller(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def roll(self, ctx):
-        await ctx.send(' '.join(str(e) for e in ctx.args))
-        if(ctx.args == []):
+    async def roll(ctx, *, roll: str):
+        if(roll == None):
             await ctx.reply('For syntax, see: <https://www.kreativekorp.com/dX/>')
             return
-        r = requests.get(url = API, params = {'roll':' '.join(str(e) for e in ctx.args), 'format':'json', 'optimize':'false', 'evaluate':'true', 'expound':'true'})
+        r = requests.get(url = API, params = {'roll':roll, 'format':'json', 'optimize':'false', 'evaluate':'true', 'expound':'true'})
         if(r.status_code != 200):
             await ctx.reply('Something went wrong - please try again later.')
-            await RedBase.send_to_owners(ctx.message + '\nHTTP ' + r.status_code + '\nResponse: ' + r.raw)
+            await RedBase.send_to_owners(ctx.message.content + '\nHTTP ' + r.status_code + '\nResponse: ' + r.raw)
             return
         response = r.json()
         if(response[0]['type'] == 'error'):
             await ctx.reply('For syntax, see: <https://www.kreativekorp.com/dX/>')
             return
-        msg = ' '.join(str(e) for e in ctx.args) + ' = ' + response[-1]['return-value']
+        msg = roll + ' = ' + response[-1]['return-value']
         await ctx.reply(msg)
