@@ -11,7 +11,7 @@ class DiceRoller(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def roll(ctx, *, roll: str):
+    async def roll(self, ctx, *, roll: str):
         if(roll == None):
             await ctx.reply('For syntax, see: <https://www.kreativekorp.com/dX/>')
             return
