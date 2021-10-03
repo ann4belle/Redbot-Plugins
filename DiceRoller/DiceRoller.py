@@ -12,7 +12,7 @@ class DiceRoller(commands.Cog):
 
     @commands.command()
     async def roll(self, ctx):
-        if(ctx.content == ''):
+        if(ctx.message == ''):
             await ctx.reply('For syntax, see: <https://www.kreativekorp.com/dX/>')
             return
         r = requests.get(url = API, params = {'roll':ctx.message, 'format':'json', 'optimize':'false', 'evaluate':'true', 'expound':'true'})
