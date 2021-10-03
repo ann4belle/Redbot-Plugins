@@ -21,7 +21,7 @@ class DiceRoller(commands.Cog):
             await RedBase.send_to_owners(ctx.message + '\nHTTP ' + r.status_code + '\nResponse: ' + r.raw)
             return
         response = r.json()
-        if(response['type'] == 'error'):
+        if(response[0]['type'] == 'error'):
             """TODO: Print error. Provide syntax?"""
             return
         msg = ctx.content + ' = ' + response[-1]['return-value']
