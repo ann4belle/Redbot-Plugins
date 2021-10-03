@@ -24,5 +24,5 @@ class DiceRoller(commands.Cog):
         if(response[0]['type'] == 'error'):
             await ctx.reply('For syntax, see: <https://www.kreativekorp.com/dX/>')
             return
-        msg = roll + ' = ' + response[-1]['return-value']
+        msg = roll + ' = ' + str(response[-1]['return-value'])
         await ctx.reply(msg)
