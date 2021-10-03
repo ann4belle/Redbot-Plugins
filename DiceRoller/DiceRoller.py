@@ -15,10 +15,10 @@ class DiceRoller(commands.Cog):
         if(ctx.content == ''):
             await ctx.reply('For syntax, see: <https://www.kreativekorp.com/dX/>')
             return
-        r = requests.get(url = API, params = {'roll':ctx.content, 'format':'json', 'optimize':'false', 'evaluate':'true', 'expound':'true'})
+        r = requests.get(url = API, params = {'roll':ctx.message, 'format':'json', 'optimize':'false', 'evaluate':'true', 'expound':'true'})
         if(r.status_code != 200):
             await ctx.reply('Something went wrong - please try again later.')
-            await RedBase.send_to_owners(ctx.content + '\nHTTP ' + r.status_code + '\nResponse: ' + r.raw)
+            await RedBase.send_to_owners(ctx.message + '\nHTTP ' + r.status_code + '\nResponse: ' + r.raw)
             return
         response = r.json()
         if(response['type'] == 'error'):
