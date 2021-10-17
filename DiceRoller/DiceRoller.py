@@ -1,5 +1,5 @@
 from redbot.core import commands
-from redbot.core.bot import RedBase
+from redbot.core.bot import Red
 import requests
 
 API = "https://kreativekorp.com/dX/"
@@ -7,8 +7,8 @@ API = "https://kreativekorp.com/dX/"
 class DiceRoller(commands.Cog):
     """Roll dice using kreativekorp dX API"""
 
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self, bot: Red):
+        self.bot: Red = bot
 
     @commands.command()
     async def roll(self, ctx, *, roll: str):
@@ -18,7 +18,7 @@ class DiceRoller(commands.Cog):
         r = requests.get(url = API, params = {'roll':roll, 'format':'json', 'optimize':'false', 'evaluate':'true', 'expound':'true'})
         if(r.status_code != 200):
             await ctx.reply('Something went wrong - please try again later.')
-            await RedBase.send_to_owners(ctx.message.content + '\nHTTP ' + r.status_code + '\nResponse: ' + r.raw)
+            await self.bot.send_to_owners(ctx.message.content + '\nHTTP ' + r.status_code + '\nResponse: ' + r.raw)
             return
         response = r.json()
         if(response[0]['type'] == 'error'):
